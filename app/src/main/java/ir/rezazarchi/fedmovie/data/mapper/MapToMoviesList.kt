@@ -3,7 +3,7 @@ package ir.rezazarchi.fedmovie.data.mapper
 import ir.rezazarchi.fedmovie.data.remote.dto.MoviesResponse
 import ir.rezazarchi.fedmovie.domain.repo.model.Movie
 
-fun MoviesResponse.mapToMoviesList() =
+fun MoviesResponse.mapToMoviesList(inBasketMovies: List<Long>) =
     moviesData.map {
         Movie(
             it.id,
@@ -26,5 +26,6 @@ fun MoviesResponse.mapToMoviesList() =
             it.type,
             it.genres,
             it.images,
+            inBasketMovies.contains(it.id)
         )
     }

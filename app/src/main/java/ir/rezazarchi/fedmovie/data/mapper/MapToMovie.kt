@@ -3,7 +3,7 @@ package ir.rezazarchi.fedmovie.data.mapper
 import ir.rezazarchi.fedmovie.data.remote.dto.MovieDto
 import ir.rezazarchi.fedmovie.domain.repo.model.Movie
 
-fun MovieDto.mapToMovie(): Movie {
+fun MovieDto.mapToMovie(addedToBasket: Boolean): Movie {
     return Movie(
         id,
         title,
@@ -25,5 +25,6 @@ fun MovieDto.mapToMovie(): Movie {
         type,
         genres,
         images,
+        addedToBasket,
     )
 }
