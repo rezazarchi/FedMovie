@@ -10,14 +10,14 @@ import ir.rezazarchi.fedmovie.domain.repo.model.Movie
 import ir.rezazarchi.fedmovie.domain.utils.NetworkError
 import ir.rezazarchi.fedmovie.domain.utils.Result
 import ir.rezazarchi.fedmovie.domain.utils.map
-import kotlinx.coroutines.flow.last
+import kotlinx.coroutines.flow.first
 
 class GetAllMoviesRepositoryImpl(
     private val getAllApi: GetAllMoviesApi,
     private val basketRepository: BasketRepository,
 ) : GetAllMoviesRepository {
     override suspend fun getAllMovies(): Result<List<Movie>, NetworkError> {
-        val inBasketMovies = basketRepository.getAllInBasketMovies().last()
+        val inBasketMovies = basketRepository.getAllInBasketMovies().first()
         return safeCall<MoviesResponse> {
             getAllApi.getMovies()
         }.map {
