@@ -19,6 +19,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -26,6 +29,7 @@ import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import ir.rezazarchi.fedmovie.R
 import ir.rezazarchi.fedmovie.common.utils.ObserveAsEvents
+import ir.rezazarchi.fedmovie.featureflag.BasketFeature
 import ir.rezazarchi.fedmovie.presentation.list.viewmodel.ListViewEffects
 import ir.rezazarchi.fedmovie.presentation.list.viewmodel.ListViewEvents
 import ir.rezazarchi.fedmovie.presentation.list.viewmodel.ListViewState
@@ -42,6 +46,10 @@ fun MoviesListScreen(
 
     LaunchedEffect(Unit) {
         loadListData()
+    }
+
+    val basketVisible by remember {
+        mutableStateOf(BasketFeature.isBasketVisible())
     }
 
     PullToRefreshBox(
@@ -74,16 +82,18 @@ fun MoviesListScreen(
                         )
                     },
                     trailingContent = {
-                        IconButton(
-                            onClick = {
-                                onToggleBasket(movie.id, !movie.addedToBasket)
-                            },
-                        ) {
-                            Icon(
-                                imageVector = if (movie.addedToBasket) Icons.Filled.ShoppingCart else Icons.Outlined.ShoppingCart,
-                                contentDescription = if (movie.addedToBasket) stringResource(R.string.remove_from_basket)
-                                else stringResource(R.string.add_to_basket)
-                            )
+                        if(basketVisible) {
+                            IconButton(
+                                onClick = {
+                                    onToggleBasket(movie.id, !movie.addedToBasket)
+                                },
+                            ) {
+                                Icon(
+                                    imageVector = if (movie.addedToBasket) Icons.Filled.ShoppingCart else Icons.Outlined.ShoppingCart,
+                                    contentDescription = if (movie.addedToBasket) stringResource(R.string.remove_from_basket)
+                                    else stringResource(R.string.add_to_basket)
+                                )
+                            }
                         }
                     },
                 )
