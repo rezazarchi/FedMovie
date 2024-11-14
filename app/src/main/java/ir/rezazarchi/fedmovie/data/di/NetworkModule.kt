@@ -17,8 +17,6 @@ const val READ_TIMEOUT = "READ_TIMEOUT"
 const val WRITE_TIMEOUT = "WRITE_TIMEOUT"
 const val CONNECTION_TIMEOUT = "CONNECTION_TIMEOUT"
 const val HTTP_LOGGING_INTERCEPTOR = "HTTP_LOGGING_INTERCEPTOR"
-const val HEADERS_INTERCEPTOR = "HEADERS_INTERCEPTOR"
-const val ACCESS_TOKEN = "ACCESS_TOKEN"
 const val BASE_URL = "BASE_URL"
 
 val networkModule = module {
@@ -34,21 +32,12 @@ val networkModule = module {
             .setLevel(HttpLoggingInterceptor.Level.BODY)
     }
 
-    factory<Interceptor>(named(HEADERS_INTERCEPTOR)) {
-        Interceptor { chain ->
-            val request = chain.request().newBuilder().addHeader(
-                    "Authorization", "Bearer ${get<String>(named(ACCESS_TOKEN))}"
-                ).build()
-            chain.proceed(request)
-        }
-    }
-
     factory(named(OK_HTTP)) {
         OkHttpClient.Builder().readTimeout(get(named(READ_TIMEOUT)), TimeUnit.MILLISECONDS)
             .writeTimeout(get(named(WRITE_TIMEOUT)), TimeUnit.MILLISECONDS)
             .connectTimeout(get(named(CONNECTION_TIMEOUT)), TimeUnit.MILLISECONDS)
             .addInterceptor(get<Interceptor>(named(HTTP_LOGGING_INTERCEPTOR)))
-            .addInterceptor(get<Interceptor>(named(HEADERS_INTERCEPTOR))).build()
+            .build()
     }
 
     single(named(RETROFIT)) {
