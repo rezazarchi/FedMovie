@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">Fed Movie</string>
+
+
+    <!--  API call errors  -->
+    <string name="error_request_timeout">Request Timeout</string>
+    <string name="error_bad_request">Bad Request</string>
+    <string name="error_unauthorized">Unauthorized. Please Login again</string>
+    <string name="error_forbidden">Forbidden!</string>
+    <string name="error_null_response">Null Response</string>
+    <string name="error_too_many_requests">Too Many Requests</string>
+    <string name="error_no_internet">No Internet Connection. Check your device connections.</string>
+    <string name="error_server_error">Server internal error</string>
+    <string name="error_serialization">Serialization Error. Please try again later.</string>
+    <string name="error_unknown">Unknown Error</string>
+
+    <string name="add_to_basket">Add to Basket</string>
+    <string name="added_to_basket">Added to Basket</string>
+    <string name="remove_from_basket">Remove from basket</string>
 </resources>
